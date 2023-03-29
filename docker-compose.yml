@@ -9,6 +9,10 @@ services:
       TZ: Asia/Seoul
       MARIADB_DATABASE: keycloak
       MARIADB_ROOT_PASSWORD: root
+  my_redis:
+    image: redis
+    ports:
+      - "6379:6379"
   my_keycloak:
     image: quay.io/keycloak/keycloak:18.0.2
     ports:
@@ -21,7 +25,9 @@ services:
       KC_DB_URL: jdbc:mariadb://host.docker.internal:3306/keycloak
       KC_DB_USERNAME: root
       KC_DB_PASSWORD: root
-    depends_on: # my_db 먼저 실행되어야함.
+    depends_on: # 먼저 실행될 리스트
       - my_rdb
+      - my_redis
     command: # 실행 command
       - start-dev
+
