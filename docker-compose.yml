@@ -1,0 +1,27 @@
+version: '3.6'
+
+services:
+  my_rdb:
+    image: mariadb:10.4
+    ports:
+      - "3306:3306"
+    environment:
+      TZ: Asia/Seoul
+      MARIADB_DATABASE: keycloak
+      MARIADB_ROOT_PASSWORD: root
+  my_keycloak:
+    image: quay.io/keycloak/keycloak:18.0.2
+    ports:
+      - "8100:8080" # 도커내부 8080 -> localhost:8100로 접근
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_LOG_CONSOLE_COLOR: true
+      KC_DB: mariadb
+      KC_DB_URL: jdbc:mariadb://host.docker.internal:3306/keycloak
+      KC_DB_USERNAME: root
+      KC_DB_PASSWORD: root
+    depends_on: # my_db 먼저 실행되어야함.
+      - my_rdb
+    command: # 실행 command
+      - start-dev
