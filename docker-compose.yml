@@ -14,7 +14,7 @@ services:
     ports:
       - "6379:6379"
   my_keycloak:
-    image: quay.io/keycloak/keycloak:18.0.2
+    image: quay.io/keycloak/keycloak:20.0.1
     ports:
       - "8100:8080" # 도커내부 8080 -> localhost:8100로 접근
     environment:
