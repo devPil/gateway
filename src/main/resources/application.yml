@@ -7,6 +7,8 @@ spring:
     admin: gateway
   cloud:
     gateway:
+      default-filters:
+        - LogFilter
       routes:
         - id: first-service
           uri: http://localhost:8081
@@ -14,7 +16,6 @@ spring:
             - Path=/first-service/**
           filters:
             - RewritePath=/first-service(?<segment>.*), /$\{segment}
-            - CustomJwtFilter
         - id: second-service
           uri: http://localhost:8082
           predicates:
